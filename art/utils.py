@@ -107,6 +107,48 @@ def projection(v, eps, p):
     return v
 
 
+def or_projection(v, x):
+    """
+    Project the values in `v` such that 'v AND x = x'. Applied element-wise.
+    This is meant to work with binary
+
+    :param v: Array of perturbations to clip.
+    :type v: `np.ndarray`
+    :param x: Array of the projection vector
+    :type x: `np.ndarray`
+    :return: Values of `v` after projection.
+    :rtype: `np.ndarray`
+    """
+    return np.logical_or(v, x).astype(np.float32)
+
+
+def round_projection(v, alpha=0.5):
+    """
+    Project the values in `v` such that values greater than `alpha`
+     are set to `1`, `0` otherwise. Applied element-wise
+
+    :param v: Array of perturbations to clip.
+    :type v: `np.ndarray`
+    :param alpha: threshold value for rounding
+    :type alpha: `float`
+    :return: Values of `v` after projection.
+    :rtype: `np.ndarray`
+    """
+    return (v > alpha).astype(np.float32)
+
+
+def hypercube_projection(v):
+    """
+    Project the values in `v` such that values are within [0,1]. Applied element-wise
+
+    :param v: Array of perturbations to clip.
+    :type v: `np.ndarray`
+    :return: Values of `v` after projection.
+    :rtype: `np.ndarray`
+    """
+    return np.clip(v, 0, 1)
+
+
 def random_sphere(nb_points, nb_dims, radius, norm):
     """
     Generate randomly `m x n`-dimension points with radius `r` and centered around 0.
